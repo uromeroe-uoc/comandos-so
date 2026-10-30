@@ -1,6 +1,7 @@
-from archivos import leer_lineas, guardar_csv
-from comandos import ping, obtener_adaptadores
-from datetime import datetime as dt
+from archivos import leer_lineas, guardar_csv, escribir_lineas
+from comandos import ping, obtener_adaptadores, datos_adaptador
+from datetime import datetime
+
 
 def lanzar_pings():
     """Lee IPs en un archivo de texto y las comprueba meidante pings"""
@@ -20,6 +21,7 @@ def lanzar_pings():
         else:
             print(" - Sin respuesta")
 
+
 def registrar_mac():
     """
     Muestra las direcciones MAC de los adaptadores disponibles y las almacena en un archivo .csv.   
@@ -28,15 +30,53 @@ def registrar_mac():
 
     # Obtener los adaptadores y mostrarlos
     adaptadores = obtener_adaptadores()
+    datos_csv = []
+    idx = 0
     for a in adaptadores:
-        print(f"{a['tipo']}: {a['nombre']} - {a['mac']}")
+        datos = datos_adaptador(a["tipo"])
+        print(f"{idx}. ({datos['tipo']}) {datos['nombre']} - {datos['mac']}")
 
-        # Añadir la hora y fecha para el csv
-        a["creacion"] = str(dt.now().isoformat())
+        # Guardar los datos para el csv
+        datos_csv.append({"tipo": datos["tipo"], "nombre": datos["nombre"], "mac": datos["mac"], "tiempo": datetime.now()})
 
-    # Guardar los datos en un archivo
-    campos = ["tipo", "nombre", "mac", "creacion"]
-    guardar_csv(campos, adaptadores, "./informacion_localRomero.csv")
+        idx += 1
+
+    # Guardar los datos en el csv
+    columnas = ["tipo", "nombre", "mac", "tiempo"]
+    guardar_csv(columnas, datos_csv, "./informacion_localRomero.csv")
+
+
+def configuracion_adaptador():
+    """
+    Muestra un submenú con los adaptadores de red disponibles. En elegir uno, muestra su IP, máscara y puerta de enlace.
+    Además, guardará esa información en un documento de texto.
+    """
+
+    # Obtener los adaptadores disponibles
+    adatpadores = obtener_adaptadores()
+    idx = 0
+    for a in adatpadores:
+        print(f"{idx}. ({a['tipo']}) {a['nombre']}")
+        idx += 1
+
+    # Seleccionar un adaptador
+    opcion = int(input("Selecciona un adaptador: "))
+    datos = datos_adaptador(adatpadores[opcion]['tipo'])
+
+    # Mostrar los datos
+    print("")
+    print(f"IP: {datos["ip"]}")
+    print(f"Mascara: {datos["mascara"]}")
+    print(f"Puerta de enlace: {datos["gateway"]}")
+
+    # Exportar los datos
+    lineas = []
+    lineas.append(str(datos['ip']))
+    lineas.append(str(datos['mascara']))
+    lineas.append(str(datos['gateway']))
+
+    escribir_lineas(lineas, "./adaptadorRomero.txt")
+
 
 def menu():
     """Muestra el menú para seleccionar las diferentes funciones del programa."""
@@ -62,7 +102,7 @@ def menu():
         registrar_mac()
 
     elif opcion == 3:
-        print("Por implementar...")
+        configuracion_adaptador()
 
     else:
         print("Opcion invalida...")
@@ -71,6 +111,7 @@ def menu():
 
     # Cuando se acabe de ejecutar cualquier opcion, salir.
     exit(0)
+
 
 # Ejecutar el menú si se ejecuta el archivo sin importar
 if __name__ == "__main__":

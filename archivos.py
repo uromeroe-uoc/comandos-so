@@ -1,6 +1,7 @@
 import os
 import csv
 
+
 def leer_lineas(ruta_archivo):
     """
     Función que lee IPs de un archivo y las devuelve en un array.   
@@ -19,6 +20,7 @@ def leer_lineas(ruta_archivo):
     archivo.close()
 
     return lineas
+
 
 def guardar_csv(columnas, datos, ruta_archivo):
     """
@@ -41,3 +43,19 @@ def guardar_csv(columnas, datos, ruta_archivo):
         writer = csv.DictWriter(f, fieldnames=columnas)
         writer.writeheader()
         writer.writerows(datos)
+
+
+def escribir_lineas(lineas, ruta_archivo):
+    """
+    Función para escribir datos en un archvio.   
+    `lineas` debe ser un array de texto (`string[]`)
+    `ruta_archivo` debe ser un string con la ruta al archivo donde se escribiran las lineas
+    """
+
+    # Convertir la ruta en ruta absoluta (ver bibliografia)
+    ruta_archivo = os.path.abspath(ruta_archivo)
+
+    # Guardar los datos en el archivo
+    with open(ruta_archivo, "w", encoding="utf-8", newline="") as f:
+        texto = "\n".join(lineas) + "\n" # Para que cada linea del array no necesite '\n' al final (ver bilbiografía)
+        f.write(texto)
