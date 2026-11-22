@@ -4,8 +4,8 @@ import csv
 
 def leer_lineas(ruta_archivo):
     """
-    Función que lee IPs de un archivo y las devuelve en un array.   
-    Las IPs deben estar formateadas una por línea y se espera una ruta en formato Windows.
+    Función que lee las lineas de un archivo y las devuelve en un array.   
+    Se espera una ruta de archivo en formato Windows.
     """
 
     # Convertir la ruta en ruta absoluta (ver bibliografia)
