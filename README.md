@@ -15,4 +15,7 @@ _Los diferentes productos están categorizados en sus respectivos **tags** y/o *
 
 ## Producto 3
 
-1. 
+1. Mostrar las IPs de un documento
+2. Mostrar la configuración de red
+3. Seleccionar un adaptador de red
+4. Comprobar el DNS más rápido

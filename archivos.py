@@ -1,49 +1,23 @@
 import os
 import csv
 
-
 def leer_lineas(ruta_archivo):
     """
     Función que lee las lineas de un archivo y las devuelve en un array.   
-    Se espera una ruta de archivo en formato Windows.
     """
 
-    # Convertir la ruta en ruta absoluta (ver bibliografia)
+    # Convertir la ruta en ruta absoluta
     ruta_archivo = os.path.abspath(ruta_archivo)
 
     # Abrir el archivo en modo lectura y poner cada linea en el array
     lineas = []
     archivo = open(ruta_archivo, "r") 
     for linia in archivo:
-        lineas.append(linia.strip()) # .strip elimina caracteres de lineas nuevas (ver bibliografía)
+        lineas.append(linia.strip()) # .strip elimina caracteres de lineas nuevas
 
     archivo.close()
 
     return lineas
-
-
-def guardar_csv(columnas, datos, ruta_archivo):
-    """
-    Funcion que guarda datos en un archivo CSV. Los datos deben ser un array de diccionarios.   
-    Ejemplo de datos:   
-    ```
-    columnas = ["nombre", "mac"]
-    datos = [   
-        {"nombre": "Ethernet", "mac": "9C-6B-00-B4-C9-B6"},   
-        {"nombre": "Wi-Fi", "mac": "AA-BB-CC-DD-EE-FF"},   
-    ]
-    ```
-    """
-
-    # Convertir la ruta en ruta absoluta (ver bibliografia)
-    ruta_archivo = os.path.abspath(ruta_archivo)
-
-    # Guardar los datos como CSV en el archivo (ver bibliografía)
-    with open(ruta_archivo, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=columnas)
-        writer.writeheader()
-        writer.writerows(datos)
-
 
 def escribir_lineas(lineas, ruta_archivo):
     """
@@ -52,10 +26,24 @@ def escribir_lineas(lineas, ruta_archivo):
     `ruta_archivo` debe ser un string con la ruta al archivo donde se escribiran las lineas
     """
 
-    # Convertir la ruta en ruta absoluta (ver bibliografia)
+    # Convertir la ruta en ruta absoluta
     ruta_archivo = os.path.abspath(ruta_archivo)
 
     # Guardar los datos en el archivo
     with open(ruta_archivo, "w", encoding="utf-8", newline="") as f:
-        texto = "\n".join(lineas) + "\n" # Para que cada linea del array no necesite '\n' al final (ver bilbiografía)
+        texto = "\n".join(lineas) + "\n" # Para que cada linea del array no necesite '\n' al final
         f.write(texto)
+
+def escribir_csv(dict, ruta_archivo):
+    """
+    Función que guarda los datos en formato `dict` en un archivo.
+    """
+
+    # Convertir la ruta en ruta absoluta
+    ruta_archivo = os.path.abspath(ruta_archivo)
+
+    # Guardar los datos en el archivo
+    with open(ruta_archivo, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=dict[0].keys())
+        writer.writeheader()
+        writer.writerows(dict)

@@ -1,0 +1,3 @@
+InterfaceIndex,InterfaceAlias,InterfaceDescription,MAC,IPv4,Gateway,DNSServers
+10,Ethernet 3,VirtualBox Host-Only Ethernet Adapter,0A-00-27-00-00-0A,192.168.56.1,,"fec0:0:0:ffff::1, fec0:0:0:ffff::2, fec0:0:0:ffff::3"
+9,Ethernet,Realtek PCIe GbE Family Controller,9C-6B-00-B4-C9-B6,192.168.0.198,192.168.0.1,9.9.9.9
